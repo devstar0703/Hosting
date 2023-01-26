@@ -52,6 +52,11 @@ const MintNft = (props) => {
 
         let ipfs_hash = await UploadNftToIpfs(uploadedFile.raw);
 
+        if(!ipfs_hash)  {
+            toast.update(id, { render: "Uploading is failed", type: "error", autoClose: 1000, isLoading: false });
+            return ;
+        }
+
         toast.update(id, { render: "Uploading is successful", type: "success", autoClose: 1000, isLoading: false });
 
         id = toast.loading("Mint NFT Tx is pending...") ;
@@ -121,7 +126,7 @@ const MintNft = (props) => {
                         label='Price'
                     />
 
-                    <FormControl sx={{mt : '20px' , mb : '20px'}}>
+                    <FormControl sx={{mt : '20px' , mb : '20px'}} fullWidth>
                         <RadioGroup
                             value={mint_method}
                             onChange={(e) => setMintMethod(e.target.value)}

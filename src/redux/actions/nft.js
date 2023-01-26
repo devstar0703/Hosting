@@ -32,7 +32,7 @@ export const UploadNftToIpfs = async (raw) => {
         return added.path ;
     } catch(err) {
         console.log(err) ;
-        return "error path";
+        return false;
     }
 }
 export const MintDmpsNFT = async (web3Provider, mint_method, name, description, price, ipfs_hash, owner) => {

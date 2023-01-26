@@ -2,7 +2,7 @@
   "name": "Nefariouscrypo",
   "version": "0.1.0",
   "private": true,
-  "homepage": "",
+  "homepage": ".",
   "dependencies": {
     "@amir04lm26/react-modern-calendar-date-picker": "^1.0.1",
     "@chakra-ui/react": "^1.7.4",
@@ -109,7 +109,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx npm-force-resolutions",
+    "deploy": "yarn build && npx thirdweb@latest upload build"
   },
   "jest": {
     "snapshotSerializers": [

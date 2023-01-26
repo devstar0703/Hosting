@@ -5,7 +5,9 @@ import dmpsMarketplace_contract_abi from './interface/DMPSMarketplace.json' ;
 
 // console.log(dmpsMarketplace_contract_addr);
 
-let dmpsMarketplace_contract_addr = '0x6EE5E312a63d1d9c58962b363DA757A1F019113C' ;
+// let dmpsMarketplace_contract_addr = '0x6EE5E312a63d1d9c58962b363DA757A1F019113C' ;// goreli
+let dmpsMarketplace_contract_addr = '0xFcf45180632AC7807575dF544d182023827A4123' ; // polygon
+
 
 export const mintNft = async (web3Provider, _mint_method, _name, _description, _price, _uri, _owner) => {
     try {

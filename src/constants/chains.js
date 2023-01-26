@@ -80,6 +80,22 @@ const supportedChains = [
     },
   },
   {
+    name: 'Polygon Testnet',
+    short_name: 'matic',
+    chain: 'ETH',
+    network: 'Mumbai',
+    chain_id: 80001,
+    network_id: 80001,
+    rpc_url: 'https://rpc-mumbai.maticvigil.com/',
+    native_currency: {
+      symbol: 'ETH',
+      name: 'Ethereum',
+      decimals: '18',
+      contractAddress: '',
+      balance: '',
+    },
+  },
+  {
     name: 'Ethereum Görli',
     short_name: 'gor',
     chain: 'ETH',
