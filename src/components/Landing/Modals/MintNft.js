@@ -119,7 +119,7 @@ const MintNft = (props) => {
                     
                     { mintable ? <MintButton fullWidth onClick={() => handleMintNft()} disabled={loading || !mintable}>
                         {loading && <Loading type='oval' width={20} height={20} fill='#E8B923'/>} &nbsp; Mint
-                    </MintButton> : <MintButton onClick={() => handleClose()}>Close</MintButton> }
+                    </MintButton> : <MintButton onClick={() => handleClose()} fullWidth>Close</MintButton> }
                 </MintNftDiv>
             </DialogContent>
         </Dialog>
