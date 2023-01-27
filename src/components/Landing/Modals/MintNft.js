@@ -96,7 +96,9 @@ const MintNft = (props) => {
             sx={{backdropFilter: 'blur(4px)'}}
         >
             <DialogTitle>
-                Mint NFT.
+                {
+                    mintable ? "Mint NFT." : "You have already minted."
+                }
             </DialogTitle>
             <Divider />
             <DialogContent>
