@@ -80,6 +80,7 @@ const MintNft = (props) => {
             let minted_nfts = nfts.filter(nft => nft.minter === walletAddress) ;
 
             if(minted_nfts.length) setMintable(false) ;
+            else setMintable(true) ;
         }
     }, [nfts]) ;
 
@@ -96,9 +97,7 @@ const MintNft = (props) => {
             sx={{backdropFilter: 'blur(4px)'}}
         >
             <DialogTitle>
-                {
-                    mintable ? "Mint NFT." : "You have already minted."
-                }
+                Mint NFT.
             </DialogTitle>
             <Divider />
             <DialogContent>
