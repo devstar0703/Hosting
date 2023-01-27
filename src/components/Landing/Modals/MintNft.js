@@ -1,7 +1,7 @@
 import * as React from 'react' ;
 
 import { connect } from 'react-redux';
-import { MintDmpsNFT, UploadNftToIpfs } from 'src/redux/actions/nft';
+import { MintDmpsNFT, FetchOurNfts } from 'src/redux/actions/nft';
 
 import { useWalletInfo } from 'src/contexts/WalletContext';
 
@@ -22,11 +22,15 @@ import {
 
 import { MintButton } from '../Styles/MintNow.styles';
 
-import { whiteList_wallets } from 'src/constants/static';
+import Loading from 'react-loading-components';
+
+import NFTAsset from 'src/assets/Landing/silver_pass_key.jpg';
 
 const MintNft = (props) => {
     const {
         open, handleClose,
+        nfts,
+        FetchOurNfts
     } = props ;
 
     const {
@@ -37,10 +41,11 @@ const MintNft = (props) => {
     const classes = useStyles() ;
 
     const [mint_option, setMintOption] = React.useState(1) ;
+    const [loading, setLoading] = React.useState(false) ;
+    const [mintable, setMintable] = React.useState(false) ;
 
     const plusOption = () => {
-        if(whiteList_wallets.includes(walletAddress) && mint_option === 7) return ;
-        if(!whiteList_wallets.includes(walletAddress) && mint_option === 2) return ;
+        if(mint_option === 2) return ;
 
         setMintOption(mint_option + 1) ;
     }
@@ -53,18 +58,37 @@ const MintNft = (props) => {
 
     const handleMintNft = async () => {
 
+        if(nfts) console.log(nfts.filter(nft => nft.minter === walletAddress)) ;
+
+        setLoading(true);
+
         let id = toast.loading("Mint NFT Tx is pending...") ;
 
         await MintDmpsNFT(web3Provider, mint_option, walletAddress) ;
 
         toast.update(id, { render: "Mint NFT Tx is successful", type: "success", autoClose: 5000, isLoading: false });
     
+        await FetchOurNfts(web3Provider) ;
+
+        setLoading(false);
+
         handleClose() ;
     }
 
+    React.useEffect(() => {
+        if(nfts) {
+            let minted_nfts = nfts.filter(nft => nft.minter === walletAddress) ;
+
+            if(minted_nfts.length) setMintable(false) ;
+        }
+    }, [nfts]) ;
+
+    React.useEffect(() => {
+        if(web3Provider) FetchOurNfts(web3Provider);
+    }, [web3Provider]) ;
+
     return (
         <Dialog
-            onClose={handleClose}
             open={open}
             classes={{
                 paper: classes.paper
@@ -77,24 +101,32 @@ const MintNft = (props) => {
             <Divider />
             <DialogContent>
                 <MintNftDiv>
-                    <SettingDiv>
-                        <DecreaseButton variant='contained' onClick={() => minusOption()}>-</DecreaseButton>
-                        <NumberDiv>{mint_option}</NumberDiv>
-                        <IncreaseButton variant='contained' onClick={() => plusOption()}>+</IncreaseButton>
-                    </SettingDiv>
-                    <AmountDiv>
-                        <Label>Price : {0.0035 * (mint_option - 1)} Ether</Label>   
-                    </AmountDiv>
-                    <MintButton fullWidth onClick={() => handleMintNft()}>Mint</MintButton>
+                    {
+                        mintable ? <>
+                            <SettingDiv>
+                                <DecreaseButton variant='contained' onClick={() => minusOption()}>-</DecreaseButton>
+                                <NumberDiv>{mint_option}</NumberDiv>
+                                <IncreaseButton variant='contained' onClick={() => plusOption()}>+</IncreaseButton>
+                            </SettingDiv> 
+                            <AmountDiv>
+                                <Label>Price : {0.0035 * (mint_option - 1)} Ether</Label>   
+                            </AmountDiv>
+                        </>
+                        : <img src={NFTAsset} width={150} height={150}/>
+                    }
+                    
+                    <MintButton fullWidth onClick={() => handleMintNft()} disabled={loading || !mintable}>
+                        {loading && <Loading type='oval' width={20} height={20} fill='#E8B923'/>} &nbsp; Mint
+                    </MintButton>
                 </MintNftDiv>
             </DialogContent>
         </Dialog>
     )
 }
 const mapStateToProps = state => ({
-
+    nfts : state.nft.nfts
 })
 const mapDispatchToProps = {
-    
+    FetchOurNfts
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MintNft) ;

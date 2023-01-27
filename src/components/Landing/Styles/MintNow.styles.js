@@ -102,3 +102,32 @@ export const Title = htmlStyled.p`
     font-family: "Playfair Display", Sans-serif;
     font-size: 48px;
 `
+
+export const TimeDiv = htmlStyled.div`
+    width : 80%;
+
+    padding-bottom : 30px;
+
+    display : flex;
+    justify-content : center;
+    gap : 30px;
+`
+
+export const NumberPara = htmlStyled.p`
+    background-color : white;
+    opacity: 0.7;
+    height : 70px;
+    width : 150px;
+
+    font-size : 25px;
+    font-weight : bold;
+
+    display : flex;
+    align-items : center;
+    justify-content : center;
+`
+
+export const UnitPara = htmlStyled.span`
+    padding-left : 10px;
+    font-size : 15px;
+`

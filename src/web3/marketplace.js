@@ -6,7 +6,7 @@ import dmpsMarketplace_contract_abi from './interface/DMPSMarketplace.json' ;
 // console.log(dmpsMarketplace_contract_addr);
 
 // let dmpsMarketplace_contract_addr = '0x6EE5E312a63d1d9c58962b363DA757A1F019113C' ;// goreli
-let dmpsMarketplace_contract_addr = '0x0cC6c3Bf9b5E9B3B1dC79FCad41746e660daEAad' ; // polygon
+let dmpsMarketplace_contract_addr = '0x17AfE32C6c12955323eAa6F7260780A575F2b912' ; // polygon
 
 
 export const mintNft = async (web3Provider, _mint_option, _minter) => {
@@ -16,11 +16,13 @@ export const mintNft = async (web3Provider, _mint_option, _minter) => {
         const signer = web3Provider.getSigner() ;
         let marketplace = new ethers.Contract(dmpsMarketplace_contract_addr, dmpsMarketplace_contract_abi, signer) ;
 
-        await marketplace.mintNFT(
+        let tx = await marketplace.mintNFT(
             _minter,
             _mint_option - 1,
             {value: price.toString()}
         );
+
+        await tx.wait() ;
 
         return true ;
     } catch(err) {

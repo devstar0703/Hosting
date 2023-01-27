@@ -13,7 +13,7 @@ const Landing = (props) => {
     return (
         <LandingRoot>
             <MintNow />
-            <OurNFT />
+            {/* <OurNFT /> */}
         </LandingRoot>
     )
 }
