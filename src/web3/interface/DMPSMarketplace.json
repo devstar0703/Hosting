@@ -147,39 +147,14 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
-						"name": "nft_name",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "nft_description",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "nft_uri",
-						"type": "string"
-					},
-					{
 						"internalType": "uint256",
-						"name": "nft_price",
+						"name": "option",
 						"type": "uint256"
 					},
 					{
 						"internalType": "address",
-						"name": "owner",
+						"name": "minter",
 						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "seller",
-						"type": "address"
-					},
-					{
-						"internalType": "bool",
-						"name": "sold",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct DMPSMarketplace.nft[]",
@@ -241,27 +216,12 @@
 				"type": "address"
 			},
 			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "uri",
-				"type": "string"
-			},
-			{
 				"internalType": "uint256",
-				"name": "price",
+				"name": "option",
 				"type": "uint256"
 			}
 		],
-		"name": "mintNft",
+		"name": "mintNFT",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -269,62 +229,6 @@
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "uri",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			}
-		],
-		"name": "mintNftFree",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "description",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "uri",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			}
-		],
-		"name": "mintNftPayable",
-		"outputs": [],
 		"stateMutability": "payable",
 		"type": "function"
 	},

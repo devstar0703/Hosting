@@ -32,27 +32,6 @@ export const NavList = htmlStyled.div`
 
 `
 
-export const LinkList = htmlStyled.div`
-    display : flex;
-    justify-content : flex-end;
-    gap : 30px;
-
-    padding-bottom : 30px;
-
-    a {
-        text-decoration : none ;
-        cursor : pointer;
-
-        color: #E7D58B;
-        font-family: "Playfair Display", Sans-serif;
-        font-size: 18px;
-    }
-
-    svg {
-        color : white !important;
-    }
-`
-
 export const MenuList = htmlStyled.div`
     display : flex ;
     justify-content : flex-end;

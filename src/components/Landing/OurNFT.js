@@ -18,8 +18,10 @@ import { ipfs_origin } from 'src/constants/static';
 
 import NFT183 from 'src/assets/Landing/Nefarious-Crypto-Pirate-Ship-.888.-Creation-183-1-768x768.jpg';
 import NFT263 from 'src/assets/Landing/Nefarious-Crypto-Pirate-Ship-.888.-Creation-263-1-768x768.jpg';
-import NFT667 from 'src/assets/Landing/Nefarious-Crypto-Pirate-Ship-.888.-Creation-667-1-768x768.jpg';
+import NFTAsset from 'src/assets/Landing/silver_pass_key.jpg';
 import NftView from './Modals/NftView';
+
+let timer ;
 
 const OurNFT = (props) => {
 
@@ -39,7 +41,14 @@ const OurNFT = (props) => {
     const handleCloseNftView = () => { setOpenNftView(false) }
 
     React.useEffect(() => {
-        if(web3Provider) FetchOurNfts(web3Provider);
+        
+        if(web3Provider) timer = setInterval(() => {
+            FetchOurNfts(web3Provider);
+        }, 5000) ;
+
+        return () => {
+            clearInterval(timer);
+        }
     }, [web3Provider]) ;
 
     React.useEffect(() => {
@@ -66,7 +75,7 @@ const OurNFT = (props) => {
                     pagination={{
                     clickable: true,
                     }}
-                    loop={true}
+                    loop={nfts.length >= 3 ? true : false}
                     navigation={true}
                     modules={[Pagination, Navigation]}
                     className="mySwiper"
@@ -74,7 +83,7 @@ const OurNFT = (props) => {
                     {
                         nfts.map((item, index) => (
                             <SwiperSlide key={index}>
-                                <img src={ipfs_origin + item.uri} onClick={() => {
+                                <img src={NFTAsset} onClick={() => {
                                     setNftData(item);
                                     // handleOpenNftView();
                                 }}/>

@@ -2,7 +2,7 @@ import htmlStyled from 'styled-components' ;
 
 import { makeStyles, withStyles } from '@mui/styles';
 
-import { Radio } from '@mui/material';
+import { Button, Radio } from '@mui/material';
 
 export const useStyles = makeStyles(() => ({
     paper : {
@@ -28,40 +28,48 @@ export const MintNftDiv = htmlStyled.div`
     padding : 10px;
 `
 
-export const AssetPreview = htmlStyled.div`
-    cursor : pointer;
-
-    width : 300px;
-    height : 300px;
-
-    border : 2px solid gray;
-    border-radius: 10px;
-
-    font-size : 40px;
-
-    svg {
-        font-size : 80px;
-    }
-
-    box-sizing : border-box;
-
-    overflow : hidden;
-
-    img {
-        width : 100%;
-        height : 100%;
-    }
-
+export const SettingDiv = htmlStyled.div`
+    display : flex;
+    justify-content : center;
+    width : 100%;
+`
+export const NumberDiv = htmlStyled.div`
+    border-top : 1px solid lightgray;
+    border-bottom : 1px solid lightgray;
     display : flex;
     justify-content : center;
     align-items : center;
+    font-size : 20px;
+    font-weight : bold;
+    width : 50px;
+`
+export const IncreaseButton = withStyles({
+    root : {
+        boxShadow : 'none !important',
+        border : '1px solid lightgray !important',
+        color : 'black !important',
+        background : 'white !important',
+        borderTopLeftRadius : '0px !important',
+        borderBottomLeftRadius : '0px !important'
+    }
+})(Button) ;
+export const DecreaseButton = withStyles({
+    root : {
+        boxShadow : 'none !important',
+        border : '1px solid lightgray !important',
+        color : 'black !important',
+        background : 'white !important',
+        borderTopRightRadius : '0px !important',
+        borderBottomRightRadius : '0px !important'
+    }
+})(Button) ;
+
+export const AmountDiv = htmlStyled.div`
+    display : flex;
+    justify-content : center;
 `
 
-export const MethodRadio = withStyles({
-    root : {
-        color: '#3772FF !important',
-        '&.Mui-checked': {
-            color: '#3772FF !important',
-        },
-    }
-})(Radio);
+export const Label = htmlStyled.p`
+    font-size : 20px;
+    font-weight :  bold;
+`

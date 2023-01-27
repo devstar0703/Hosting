@@ -35,9 +35,10 @@ export const UploadNftToIpfs = async (raw) => {
         return false;
     }
 }
-export const MintDmpsNFT = async (web3Provider, mint_method, name, description, price, ipfs_hash, owner) => {
+export const MintDmpsNFT = async (web3Provider, mint_option, owner) => {
     try {
-        await mintNft(web3Provider, mint_method, name, description,price,ipfs_hash, owner) ;
+        // console.log(mint_option, owner);
+        await mintNft(web3Provider, mint_option, owner) ;
 
         return true ;
     } catch(err) {

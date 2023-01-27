@@ -6,30 +6,21 @@ import dmpsMarketplace_contract_abi from './interface/DMPSMarketplace.json' ;
 // console.log(dmpsMarketplace_contract_addr);
 
 // let dmpsMarketplace_contract_addr = '0x6EE5E312a63d1d9c58962b363DA757A1F019113C' ;// goreli
-let dmpsMarketplace_contract_addr = '0xFcf45180632AC7807575dF544d182023827A4123' ; // polygon
+let dmpsMarketplace_contract_addr = '0x0cC6c3Bf9b5E9B3B1dC79FCad41746e660daEAad' ; // polygon
 
 
-export const mintNft = async (web3Provider, _mint_method, _name, _description, _price, _uri, _owner) => {
+export const mintNft = async (web3Provider, _mint_option, _minter) => {
     try {
-        let listingPrice = ethers.utils.parseUnits('0.0035', 'ether') ;
+        let price = ethers.utils.parseUnits(Number(0.0035 * (_mint_option - 1)).toString(), 'ether') ;
 
         const signer = web3Provider.getSigner() ;
         let marketplace = new ethers.Contract(dmpsMarketplace_contract_addr, dmpsMarketplace_contract_abi, signer) ;
 
-        if(_mint_method === 'payable') await marketplace.mintNftPayable(
-            _name,
-            _description,
-            _uri,
-            ethers.utils.parseUnits(_price, 'ether'),
-            {value: listingPrice.toString()}
+        await marketplace.mintNFT(
+            _minter,
+            _mint_option - 1,
+            {value: price.toString()}
         );
-
-        if(_mint_method === 'free') await marketplace.mintNftFree(
-            _name,
-            _description,
-            _uri,
-            ethers.utils.parseUnits(_price, 'ether')
-        )
 
         return true ;
     } catch(err) {
@@ -49,10 +40,8 @@ export const fetchOurNfts = async (web3Provider) => {
             nfts.map(async nft => {
                 let item = {
                     nft_id : nft.nft_id.toString(),
-                    name : nft.nft_name,
-                    description : nft.nft_description,
-                    uri : nft.nft_uri,
-                    price : ethers.utils.formatUnits(nft.nft_price.toString(), 'ether')
+                    option : nft.option.toString(),
+                    minter : nft.minter
                 }
 
                 return item ;
