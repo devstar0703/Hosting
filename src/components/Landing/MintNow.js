@@ -2,7 +2,7 @@ import * as React from 'react' ;
 
 import { AirDropButton, BtnGroup, MintButton, MintNowDiv,
     TimerDiv, TimeGroup, NumberPara, UnitLabel
-} from '../styles/MintNow.styles';
+} from '../Styles/MintNow.styles';
 
 import MintNft from '../Modals/MintNft';
 

@@ -2,9 +2,9 @@ import * as React from 'react' ;
 
 import { Dialog, DialogContent,  } from '@mui/material';
 
-import { PricePara, StyledPaper, BackImgDiv, TitlePara, FormGroup, Label, IncButton, DecButton, NumberPara, AmountDiv } from '../styles/MintNft.styles';
+import { PricePara, StyledPaper, BackImgDiv, TitlePara, FormGroup, Label, IncButton, DecButton, NumberPara, AmountDiv } from '../Styles/MintNft.styles';
 
-import { MintButton } from '../styles/MintNow.styles';
+import { MintButton } from '../Styles/MintNow.styles';
 
 import * as Wagmi from "wagmi";
 

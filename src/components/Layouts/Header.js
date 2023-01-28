@@ -2,7 +2,7 @@ import * as React from 'react' ;
 
 import LogoImg from 'src/assets/deviantLogo.svg' ;
 
-import { NavDiv } from './styles/Header.styles';
+import { NavDiv } from './Styles/Header.styles';
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
