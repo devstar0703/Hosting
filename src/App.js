@@ -1,47 +1,42 @@
-import * as React from 'react';
+import * as React from 'react' ;
 
-// Suspense
-import { Fragment ,  Suspense , lazy } from 'react' ;
+import '@rainbow-me/rainbowkit/styles.css';
 
-// Theme
-import { ThemeProvider , CssBaseline } from '@mui/material';
-import theme from './utils/Theme' ;
+import { darkTheme, getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { polygonMumbai, foundry } from "wagmi/chains";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
 
-// Language 
-import { LanguageProvider } from "./utils/Language";
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
-// Store
-import { Provider } from 'react-redux' ;
-import store from './redux';
+const { chains, provider } = configureChains(
+	[polygonMumbai, foundry],
+	[alchemyProvider({ apiKey: 'f957dcc0cb6c430f9d32c2c085762bdf' }), publicProvider()]
+);
 
-// Router
-import { BrowserRouter , Routes , Route } from 'react-router-dom';
+const { connectors } = getDefaultWallets({
+	appName: "My Alchemy DApp",
+	chains,
+});
 
-const MainComponent = lazy(() => import('./components/Main')) ;
+const wagmiClient = createClient({
+	autoConnect: true,
+	connectors,
+	provider,
+});
+
+const Main = React.lazy(() => import('./pages/Main')) ;
 
 const App = () => {
-
-  React.useEffect(() => {
-    window.process = {
-      ...window.process
-    };
-  }, [])
-
   return (
-    <BrowserRouter>
-      <LanguageProvider>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Suspense fallback={<Fragment />} >
-              <Routes>
-                  <Route path="*" element={<MainComponent />} />
-              </Routes>
-            </Suspense>
-          </ThemeProvider>
-        </Provider>
-      </LanguageProvider>
-    </BrowserRouter>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider modalSize="large" coolMode chains={chains} theme={darkTheme({
+				accentColor: "#FF3300"
+			})}>
+        <Main />
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }
 

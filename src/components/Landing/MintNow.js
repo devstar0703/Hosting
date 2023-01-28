@@ -1,70 +1,77 @@
 import * as React from 'react' ;
 
-import { useWalletInfo } from 'src/contexts/WalletContext';
+import { AirDropButton, BtnGroup, MintButton, MintNowDiv,
+    TimerDiv, TimeGroup, NumberPara, UnitLabel
+} from '../styles/MintNow.styles';
 
-import MetamaskConn from 'src/components/Common/Wallets/MetamaskConn';
+import MintNft from '../Modals/MintNft';
 
-import Header from 'src/components/Layouts/Header';
+let timer ;
 
-import { Grid } from '@mui/material';
+const MintNow = () => {
+    const [openMintModal, setOpenMintModal] = React.useState(false) ;
+    const [curDate, setCurDate] = React.useState(new Date()) ;
 
-import { 
-    MintButton,
-    MintNowDiv,
-    RopeLine,
-    TopDiv,
-    MainDiv, StrongBackOverlay,
-    Row,
-    TimeDiv,
-    NumberPara,
-    UnitPara
-} from './Styles/MintNow.styles';
-
-import MintNft from './Modals/MintNft';
-
-const MintNow = (props) => {
-
-    const {
-        isWalletConnected
-    } = useWalletInfo() ;
-
-    const [isOpenMintModal, setOpenMintModal] = React.useState(false) ;
-    const [cur_date, setCurDate] = React.useState(new Date());
-    
-    const handleOpenMintModal = () => { setOpenMintModal(true) }
-    const handleCloseMintModal = () => { setOpenMintModal(false) }
+    const handleOpenMintModal = () => { setOpenMintModal(true) } ;
+    const handleCloseMintModal = () => { setOpenMintModal(false) } ;
 
     React.useEffect(() => {
-        setInterval(() => {
-            setCurDate(new Date());
-        }, 1000);
+        timer = setInterval(() => {
+            setCurDate(new Date())
+        }, 1000) ;
+
+        return () => {
+            clearInterval(timer);
+        }
     }, []) ;
 
     return (
-        <TopDiv>
-            <StrongBackOverlay/>
-            <MainDiv>
-                <MintNowDiv>
-                    <TimeDiv>
-                        <NumberPara>{cur_date.getDate()} <UnitPara>Days</UnitPara></NumberPara>
-                        <NumberPara>{cur_date.getHours()} <UnitPara>Hours</UnitPara></NumberPara>
-                        <NumberPara>{cur_date.getMinutes()} <UnitPara>Mins</UnitPara></NumberPara>
-                        <NumberPara>{cur_date.getSeconds()} <UnitPara>Seconds</UnitPara></NumberPara>
-                    </TimeDiv>
-                    <Row>
-                        <MintButton disabled={!isWalletConnected} onClick={() => handleOpenMintModal()}>Mint Now</MintButton>
-                        <MetamaskConn />
-                    </Row>
-                </MintNowDiv>
-                <RopeLine />
-            </MainDiv>
-            <Header />
-
+        <>
+            <MintNowDiv>
+                <TimerDiv>
+                    <TimeGroup>
+                        <NumberPara>
+                            { curDate.getDate() }
+                        </NumberPara>
+                        <UnitLabel>
+                            Days
+                        </UnitLabel>
+                    </TimeGroup>
+                    <TimeGroup>
+                        <NumberPara>
+                            { curDate.getHours() }
+                        </NumberPara>
+                        <UnitLabel>
+                            Hrs
+                        </UnitLabel>
+                    </TimeGroup>
+                    <TimeGroup>
+                        <NumberPara>
+                            { curDate.getMinutes() }
+                        </NumberPara>
+                        <UnitLabel>
+                            Mins
+                        </UnitLabel>
+                    </TimeGroup>
+                    <TimeGroup>
+                        <NumberPara>
+                            { curDate.getSeconds() }
+                        </NumberPara>
+                        <UnitLabel>
+                            Seconds
+                        </UnitLabel>
+                    </TimeGroup>
+                </TimerDiv>
+                <BtnGroup>
+                    <MintButton onClick={handleOpenMintModal}>Mint Now</MintButton>
+                    <AirDropButton>Join Airdrop</AirDropButton>
+                </BtnGroup>
+            </MintNowDiv>
             <MintNft 
-                open={isOpenMintModal}
+                open={openMintModal}
                 handleClose={handleCloseMintModal}
             />
-        </TopDiv>
+        </>
     )
 }
 
