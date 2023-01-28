@@ -1,1 +1,0 @@
-export const nftAddr = "0xc467Aac5B47De9b85b0927b275CBC216AFA9A1cb" ;
