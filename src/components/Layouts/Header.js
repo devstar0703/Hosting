@@ -8,8 +8,8 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 import * as Wagmi from 'wagmi' ;
 
-import { nftAddr } from 'src/web3/constants';
-import nftAbi from 'src/web3/abi/nft.json' ;
+// import { nftAddr } from 'src/web3/constants';
+// import nftAbi from 'src/web3/abi/nft.json' ;
 import { whiteList_wallets } from 'src/static/variables';
 
 const Header = () => {
@@ -23,6 +23,7 @@ const Header = () => {
 	// 	signerOrProvider: signer,
 	// });
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const checkWhiteUser = async () => {
         // let receipt = await nftInstance.isWhiteList();
         // console.log(receipt);
@@ -37,7 +38,7 @@ const Header = () => {
         if(signer) {
             checkWhiteUser() ;
         }
-    }, [signer]) ;
+    }, [checkWhiteUser, signer]) ;
 
     return (
         <NavDiv>

@@ -1,6 +1,6 @@
 import * as React from 'react' ;
 
-import { Grid, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Grid, FormGroup, FormControlLabel } from '@mui/material';
 
 import { 
     AirDropButton, BtnGroup, MintButton, MintNowDiv,
