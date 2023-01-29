@@ -8,10 +8,13 @@ import {
     FormGroup, Label, IncButton, DecButton, 
     NumberPara, AmountDiv,
     FormDiv,
-    DescPara
+    DescPara,
+    CloseDiv
 } from '../styles/MintNft.styles';
 
 import { MintButton } from '../styles/MintNow.styles';
+
+import CloseIcon from '@mui/icons-material/Close';
 
 import * as Wagmi from "wagmi";
 
@@ -64,6 +67,7 @@ const MintNft = (props) => {
             fullWidth
         >
             <DialogContent>
+                <CloseDiv onClick={handleClose}><CloseIcon/></CloseDiv>
                 <BackImgDiv />
                 <TitlePara>
                     Buy Deviants Mints Pass NFT

@@ -29,8 +29,6 @@ const Header = () => {
 
         let address = await signer.getAddress();
         
-        console.log(address);
-
         if(whiteList_wallets.includes(address)) setGrantRole(1) ;
         else setGrantRole(2)
     }

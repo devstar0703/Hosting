@@ -6,6 +6,30 @@ import { Button, Paper, TextField } from "@mui/material";
 
 import BackImg from 'src/assets/background-min.png';
 
+export const CloseDiv = htmlStyled.div`
+    position : absolute;
+    border-radius : 50%;
+
+    width : 40px;
+    height : 40px;
+
+    top : 10px;
+    right : 20px;
+
+    background-color: #ffffff7a;
+
+    display : flex;
+    justify-content : center;
+    align-items : center;
+
+    cursor : pointer;
+    transition : 0.3s;
+    
+    :hover {
+        background-color : white;
+    }
+`
+
 export const BackImgDiv = htmlStyled.div`
     background-image : url('${BackImg}') ;
     background-size : 100% 240%;
@@ -20,6 +44,8 @@ export const StyledPaper = styled(Paper)`
     background-color : black ;
     
     .MuiDialogContent-root {
+        position : relative;
+
         padding : 0px ;
 
         display : flex;
