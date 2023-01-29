@@ -70,6 +70,8 @@ export const TitlePara = htmlStyled.p`
 export const DescPara = htmlStyled.p`
     font-size : 16px;
     color : #4a494b;
+
+    text-align : center;
 `
 
 export const PassPriceDiv = htmlStyled.div`

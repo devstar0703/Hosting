@@ -37,7 +37,10 @@ const Header = () => {
     React.useEffect(() => {
         if(signer) {
             checkWhiteUser() ;
+            return ;
         }
+
+        setGrantRole(0);
     }, [checkWhiteUser, signer]) ;
 
     return (

@@ -21,6 +21,7 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import DiscordIcon from 'src/assets/discord.svg';
+import AirDrop from '../Modals/AirDrop';
 
 let timer ;
 
@@ -46,11 +47,16 @@ const MintNow = () => {
     ];
 
     const [openMintModal, setOpenMintModal] = React.useState(false) ;
+    const [openDropModal, setOpenDropModal] = React.useState(false) ;
+
     const [curDate, setCurDate] = React.useState(new Date()) ;
 
-    const handleOpenMintModal = () => { setOpenMintModal(true) } ;
-    const handleCloseMintModal = () => { setOpenMintModal(false) } ;
- 
+    const handleOpenMintModal = () => { setOpenMintModal(true) } 
+    const handleCloseMintModal = () => { setOpenMintModal(false) } 
+    
+    const handleOpenDropModal = () => { setOpenDropModal(true) }
+    const handleCloseDropModal = () => { setOpenDropModal(false) }
+
     React.useEffect(() => {
         timer = setInterval(() => {
             setCurDate(new Date())
@@ -125,7 +131,7 @@ const MintNow = () => {
                             </FormGroup>
                             <BtnGroup>
                                 <MintButton onClick={handleOpenMintModal}>Mint Now</MintButton>
-                                <AirDropButton>Join Airdrop</AirDropButton>
+                                <AirDropButton onClick={handleOpenDropModal}>Join Airdrop</AirDropButton>
                             </BtnGroup>
                         </CoreDiv>
                     </Grid>
@@ -146,6 +152,11 @@ const MintNow = () => {
             <MintNft 
                 open={openMintModal}
                 handleClose={handleCloseMintModal}
+            />
+
+            <AirDrop
+                open={openDropModal}
+                handleClose={handleCloseDropModal}
             />
         </>
     )
