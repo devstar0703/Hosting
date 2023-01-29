@@ -16,3 +16,12 @@ export const LandingDiv = htmlStyled.div`
     justify-content : center;
 `
 
+export const BackOverlay = htmlStyled.div`
+    background-color : #00000054;
+
+    height : 100%;
+    
+    display : flex;
+    align-items : center;
+`
+

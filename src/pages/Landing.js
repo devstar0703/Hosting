@@ -1,13 +1,15 @@
 import * as React from 'react' ;
 
-import { LandingDiv } from './styles/Landing.styles';
+import { LandingDiv,BackOverlay } from './styles/Landing.styles';
 
 import MintNow from 'src/components/Landing/MintNow';
 
 const Landing = () => {
     return (
         <LandingDiv>
-            <MintNow />
+            <BackOverlay>
+                <MintNow />
+            </BackOverlay>
         </LandingDiv>
     )
 }

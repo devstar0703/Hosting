@@ -26,7 +26,7 @@ export const StyledPaper = styled(Paper)`
         flex-direction : column;
         align-items : center;
 
-        padding-bottom : 10px;
+        padding-bottom : 30px;
     }
 `
 
@@ -35,12 +35,38 @@ export const TitlePara = htmlStyled.p`
     text-align : center;
 
     padding-top : 30px;
-    padding-bottom  40px;
-    
+    padding-bottom : 10px;
+
     font-size : 30px;
     font-weight : bold;
+`
 
-    padding-bottom : 40px;
+export const DescPara = htmlStyled.p`
+    font-size : 16px;
+    color : #4a494b;
+`
+
+export const PassPriceDiv = htmlStyled.div`
+    padding-left : 40px;
+`
+
+export const FreeMintDiv = htmlStyled.div`
+    width : 100%;
+
+    display : flex;
+    flex-direction : column;
+    align-items : center;
+
+    border-right : 1px solid #4a494b;
+`
+
+export const FormDiv = htmlStyled.div`
+    width : 100%;
+
+    box-sizing: border-box;
+
+    padding-left : 20px;
+    padding-right: 20px;
 `
 
 export const FormGroup = htmlStyled.div`
@@ -53,6 +79,11 @@ export const FormGroup = htmlStyled.div`
     box-sizing: border-box;
 
     padding : 15px 25px;
+
+    border : 1px solid rgb(18 20 23);
+    border-radius: 20px;
+
+    margin-bottom : 20px;
 `
 
 export const Label = htmlStyled.p`

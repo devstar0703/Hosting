@@ -1,8 +1,15 @@
 import * as React from 'react' ;
 
-import { Dialog, DialogContent,  } from '@mui/material';
+import { Dialog, DialogContent, Grid,  } from '@mui/material';
 
-import { PricePara, StyledPaper, BackImgDiv, TitlePara, FormGroup, Label, IncButton, DecButton, NumberPara, AmountDiv } from '../styles/MintNft.styles';
+import { 
+    PricePara, StyledPaper, BackImgDiv, TitlePara, 
+    FreeMintDiv, PassPriceDiv,
+    FormGroup, Label, IncButton, DecButton, 
+    NumberPara, AmountDiv,
+    FormDiv,
+    DescPara
+} from '../styles/MintNft.styles';
 
 import { MintButton } from '../styles/MintNow.styles';
 
@@ -22,7 +29,6 @@ const MintNft = (props) => {
     const [mint_amount, setMintAmount] = React.useState(1) ;
 
     const {data: signer} = Wagmi.useSigner() ;
-	const account = Wagmi.useAccount();
 
     const nftInstance = Wagmi.useContract({
 		address: nftAddr,
@@ -62,18 +68,37 @@ const MintNft = (props) => {
                 <TitlePara>
                     Buy Deviants Mints Pass NFT
                 </TitlePara>
-                <FormGroup>
-                    <Label>Amount</Label>
-                    <AmountDiv>
-                        <DecButton onClick={() => handleDecrease()}>-</DecButton>
-                        <NumberPara>{mint_amount}</NumberPara>
-                        <IncButton onClick={() => handleIncrease()}>+</IncButton>
-                    </AmountDiv>
-                </FormGroup>
-                <FormGroup>
-                    <Label>Final Mint Price</Label>
-                    <PricePara>{0.035 * (mint_amount - 1) } ETH</PricePara>
-                </FormGroup>
+                <DescPara>
+                    Select the amount of the Deviants you would like to mint.
+                </DescPara>
+                <Grid container sx={{mt : 5, mb : 5}}>
+                    <Grid item xs={5}>
+                        <FreeMintDiv>
+                            <DescPara>Free Mint</DescPara>
+                            <Label>1 Free</Label>
+                        </FreeMintDiv>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <PassPriceDiv>
+                            <DescPara>Public Mint Pass price:</DescPara>
+                            <Label>  0 * 0.0035 ETH</Label>
+                        </PassPriceDiv>
+                    </Grid>
+                </Grid>
+                <FormDiv>
+                    <FormGroup>
+                        <Label>Amount</Label>
+                        <AmountDiv>
+                            <DecButton onClick={() => handleDecrease()}>-</DecButton>
+                            <NumberPara>{mint_amount}</NumberPara>
+                            <IncButton onClick={() => handleIncrease()}>+</IncButton>
+                        </AmountDiv>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label>Final Mint Price</Label>
+                        <PricePara>{0.0035 * (mint_amount - 1) } ETH</PricePara>
+                    </FormGroup>
+                </FormDiv>
                 <MintButton variant='contained' onClick={() => handleMint()}>Mint Now</MintButton>
             </DialogContent>
         </Dialog>

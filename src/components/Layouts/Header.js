@@ -10,6 +10,7 @@ const Header = () => {
     return (
         <NavDiv>
             <img src={LogoImg} width={50} height={50} alt='logo image' />
+            
             <ConnectButton />
         </NavDiv>
     )
