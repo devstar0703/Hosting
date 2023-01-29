@@ -13,3 +13,10 @@ export const NavDiv = htmlStyled.div`
 
     padding : 20px;
 `
+
+export const StatusPara = htmlStyled.div`
+    color : white;
+    background : linear-gradient(180deg, rgba(120, 120, 120, 0.2) 9.49%, rgba(0, 0, 0, 0) 71.04%), #1A1B1F;
+    padding : 10px;
+    border-radius : 5px;
+`
