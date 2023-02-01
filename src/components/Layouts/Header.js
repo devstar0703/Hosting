@@ -48,7 +48,7 @@ const Header = (props) => {
         let address = await signer.getAddress() ;
 
         let balance = await nftInstance.balanceOf(address) ;
-        let isWhite = await nftInstance.isWhiteList() ;
+        let isWhite = await nftInstance.isWhiteList(address) ;
 
         let role ;
 

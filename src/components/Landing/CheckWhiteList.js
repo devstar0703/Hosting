@@ -29,7 +29,7 @@ const CheckWhiteList = () => {
 	});
 
     const handleCheckRole = async () => {
-        let role = await nftInstance.isWhiteList() ;
+        let role = await nftInstance.isWhiteList(checkable_addr) ;
 
         if(role) setUserRole('whitelist');
         else setUserRole('not-whitelist');
