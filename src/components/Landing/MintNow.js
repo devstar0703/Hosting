@@ -1,165 +1,137 @@
 import * as React from 'react' ;
 
-import { Grid, FormGroup, FormControlLabel } from '@mui/material';
+import { useWalletInfo } from 'src/context/WalletContext';
+
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 import { 
-    AirDropButton, BtnGroup, MintButton, MintNowDiv,
-    StyledCheckbox,
-    TimerDiv, TimeGroup, NumberPara, UnitLabel,
-    ImageGroup, ImageCard,
-    CoreDiv,
-    LinkList, LinkItem,
-    WhiteSpan, RedSpan
+    MintNowDiv,
+    CounterDiv,
+    CircularDiv,
+    StyledP,
+    CounterButton
 } from '../styles/MintNow.styles';
 
-import MintNft from '../Modals/MintNft';
+import { 
+    TitleDiv,
+    DescPara,
+    StyledButton
+} from '../styles/Common.styles';
 
-import MintPassImg from 'src/assets/mint-pass.jpg';
-import ScenceImg from 'src/assets/scene.jpg';
+import axios from 'axios';
 
-import TelegramIcon from '@mui/icons-material/Telegram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import DiscordIcon from 'src/assets/discord.svg';
-import AirDrop from '../Modals/AirDrop';
+import * as Wagmi from "wagmi";
+import { ethers } from 'ethers';
 
-let timer ;
+import { nftAddr } from 'src/web3/constants';
+import nftAbi from 'src/web3/abi/nft.json' ;
 
 const MintNow = () => {
-    const linkList = [
-        {
-            icon : DiscordIcon,
-            color : "#7289da",
-            img : true
-        },
-        {
-            icon : <LinkedInIcon/>,
-            color : "#0EAC99"
-        },
-        {
-            icon : <TwitterIcon/>,
-            color : "#ff0000"
-        },
-        {
-            icon : <TelegramIcon/>,
-            color: '#0088cc'
-        }
-    ];
+    const {
+        balance,
+    } = useWalletInfo() ;
 
-    const [openMintModal, setOpenMintModal] = React.useState(false) ;
-    const [openDropModal, setOpenDropModal] = React.useState(false) ;
+    const [minted_amount, setMintedAmount] = React.useState(0) ;
+    const [mintable_amount, setMintableAmount] = React.useState(1) ;
+    const [max_amount, setMaxAmount] = React.useState(2);
+    const [eth_price, setEthPrice] = React.useState(0) ;
 
-    const [curDate, setCurDate] = React.useState(new Date()) ;
+    const {data: signer} = Wagmi.useSigner() ;
 
-    const handleOpenMintModal = () => { setOpenMintModal(true) } 
-    const handleCloseMintModal = () => { setOpenMintModal(false) } 
+    const nftInstance = Wagmi.useContract({
+		address: nftAddr,
+		abi: nftAbi,
+		signerOrProvider: signer,
+	});
+
+    const handleDecrease = () => {
+        if(mintable_amount === 1) return;
+        setMintableAmount(mintable_amount - 1);
+    }
+
+    const handleIncrease = () => {
+        if(mintable_amount === max_amount || !max_amount) return ;
+        setMintableAmount(mintable_amount + 1);
+    }
+
+    const handleMint = async () => {
+        // return ;
+        let chargePrice = ethers.utils.parseUnits('0.0035', 'ether') ;
+
+        let receipt = await nftInstance.mintNFT(mintable_amount, { value: chargePrice * (mintable_amount - 1)});
+
+        console.log(receipt);
+    }
     
-    const handleOpenDropModal = () => { setOpenDropModal(true) }
-    const handleCloseDropModal = () => { setOpenDropModal(false) }
+    React.useEffect(() => {
+        async function fecthAmount() {
+            let amount = await nftInstance.getMintedAmount() ;
+
+            setMintedAmount(amount.toString()) ;
+        }
+          
+        if(signer) {
+            fecthAmount();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [signer]);
 
     React.useEffect(() => {
-        timer = setInterval(() => {
-            setCurDate(new Date())
-        }, 1000) ;
+        setMaxAmount(2 - balance) ;
+    }, [balance]) ;
 
-        return () => {
-            clearInterval(timer);
-        }
-    }, []) ;
+    React.useEffect(() => {
+        const convertEthToUSE = async () => {
+            try {
+                if(!eth_price) {
+                    let res = await axios.get( "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd" ) ;
+
+                    setEthPrice(res.data.ethereum.usd);
+                    console.log(res.data);
+                }
+            } catch (e) {}
+        };
+        convertEthToUSE();
+    }, []);
 
     return (
-        <>
-            <MintNowDiv>
-                <Grid container>
-                    <Grid item xs={3}>
-                        <ImageGroup>
-                            <ImageCard src={ScenceImg} />
-                            <ImageCard src={MintPassImg} />
-                        </ImageGroup>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <CoreDiv>
-                            <TimerDiv>
-                                <TimeGroup>
-                                    <NumberPara>
-                                        { curDate.getDate() }
-                                    </NumberPara>
-                                    <UnitLabel>
-                                        Days
-                                    </UnitLabel>
-                                </TimeGroup>
-                                <TimeGroup>
-                                    <NumberPara>
-                                        { curDate.getHours() }
-                                    </NumberPara>
-                                    <UnitLabel>
-                                        Hrs
-                                    </UnitLabel>
-                                </TimeGroup>
-                                <TimeGroup>
-                                    <NumberPara>
-                                        { curDate.getMinutes() }
-                                    </NumberPara>
-                                    <UnitLabel>
-                                        Mins
-                                    </UnitLabel>
-                                </TimeGroup>
-                                <TimeGroup>
-                                    <NumberPara>
-                                        { curDate.getSeconds() }
-                                    </NumberPara>
-                                    <UnitLabel>
-                                        Seconds
-                                    </UnitLabel>
-                                </TimeGroup>
-                            </TimerDiv>
-                            <FormGroup row sx={{mb : '20px'}}>
-                                <FormControlLabel
-                                    control={
-                                        <StyledCheckbox 
-                                            type='checkbox'
-                                            name="is_enable_fa"
-                                        />
-                                    }
-                                    label={
-                                        <div>
-                                            <WhiteSpan>I accept the Deviants Mints pass</WhiteSpan>
-                                            <RedSpan>&nbsp;Terms of service</RedSpan>
-                                        </div>
-                                    }
-                                />
-                            </FormGroup>
-                            <BtnGroup>
-                                <MintButton onClick={handleOpenMintModal}>Mint Now</MintButton>
-                                <AirDropButton onClick={handleOpenDropModal}>Join Airdrop</AirDropButton>
-                            </BtnGroup>
-                        </CoreDiv>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <LinkList>
-                            { linkList.map((item, index) => (
-                                <LinkItem color={item.color} key={index}>
-                                    { item.img ? <img src={item.icon} alt='no'/> : item.icon }
-                                </LinkItem>
-                            )) }
-                        </LinkList>
-                    </Grid>
-                </Grid>
-                
-                
-                
-            </MintNowDiv>
-            <MintNft 
-                open={openMintModal}
-                handleClose={handleCloseMintModal}
-            />
-
-            <AirDrop
-                open={openDropModal}
-                handleClose={handleCloseDropModal}
-            />
-        </>
+        <MintNowDiv>
+            <TitleDiv>
+                Silver Mint Pass
+            </TitleDiv>
+            <CircularDiv>
+                <CircularProgressbar 
+                    value={Number(Number(minted_amount) / 5555).toFixed(4)} 
+                    text={`${Number(Number(minted_amount) / 5555).toFixed(4)}%`} 
+                    styles={buildStyles({
+                        pathColor: "#FE3301",
+                        trailColor: "#132135",
+                        textColor: "#FE3301",
+                    })}
+                />
+            </CircularDiv>
+            <DescPara>
+                {
+                    !Number(minted_amount) ? "No NFT mints yet." : `${minted_amount}/5555 already minted`
+                }
+            </DescPara>
+            <CounterDiv>
+                <CounterButton onClick={() => handleDecrease()}>
+                    -
+                </CounterButton>
+                <StyledP>
+                    { mintable_amount }
+                </StyledP>
+                <CounterButton onClick={() => handleIncrease()}>
+                    +
+                </CounterButton>
+            </CounterDiv>
+            <StyledP>
+                Total Cost : {mintable_amount} Ξ {`($${Number(eth_price * (mintable_amount - 1) * 0.0035).toPrecision(3)} USD)`}
+            </StyledP>
+            <StyledButton variant='contained' onClick={() => handleMint()}>Mint Now</StyledButton>
+        </MintNowDiv>
     )
 }
 
-export default MintNow;
+export default MintNow ;

@@ -117,6 +117,7 @@ export const FormGroup = htmlStyled.div`
 export const Label = htmlStyled.p`
     color : white;
     font-size : 20px;
+    text-align : center;
 `
 
 export const InputForm = styled(TextField)`

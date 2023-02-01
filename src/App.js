@@ -12,7 +12,11 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const { chains, provider } = configureChains(
 	[polygonMumbai, foundry],
-	[alchemyProvider({ apiKey: 'f957dcc0cb6c430f9d32c2c085762bdf' }), publicProvider()]
+	[alchemyProvider({ 
+		apiKey: 'TM_2HoUNaGB5IX6grUxMx9dWOti85Kff', 
+		infuraId: 'ded2c8aa580d44d2b63c2b88c03fe3a3'
+	}), 
+	publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
