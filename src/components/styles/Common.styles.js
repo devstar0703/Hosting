@@ -25,6 +25,11 @@ export const StyledButton = styled(Button)`
     :hover {
         background : #fe3301; 
     }
+
+    &:disabled {
+        background : gray;
+        cursor : not-allowed !important;
+    }
 `
 
 

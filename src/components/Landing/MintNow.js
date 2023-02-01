@@ -45,7 +45,7 @@ const MintNow = () => {
 	});
 
     const handleDecrease = () => {
-        if(mintable_amount === 1) return;
+        if(mintable_amount <= 1) return;
         setMintableAmount(mintable_amount - 1);
     }
 
@@ -73,11 +73,13 @@ const MintNow = () => {
         if(signer) {
             fecthAmount();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [signer]);
 
     React.useEffect(() => {
+        console.log(balance);
         setMaxAmount(2 - balance) ;
+        setMintableAmount( 2 - balance ) ;
     }, [balance]) ;
 
     React.useEffect(() => {
@@ -127,9 +129,11 @@ const MintNow = () => {
                 </CounterButton>
             </CounterDiv>
             <StyledP>
-                Total Cost : {mintable_amount} Ξ {`($${Number(eth_price * (mintable_amount - 1) * 0.0035).toPrecision(3)} USD)`}
+                Total Cost : {mintable_amount} Ξ { mintable_amount > 0 ? `($${Number(eth_price * (mintable_amount - 1) * 0.0035).toPrecision(3)} USD)` : '0 USD'}
             </StyledP>
-            <StyledButton variant='contained' onClick={() => handleMint()}>Mint Now</StyledButton>
+            <br/>
+            { !mintable_amount && <DescPara>You already have minted the max no. of NFTs allowed per wallet</DescPara> }
+            <StyledButton variant='contained' onClick={() => handleMint()} disabled={!mintable_amount}>Mint Now</StyledButton>
         </MintNowDiv>
     )
 }
