@@ -1,89 +1,160 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import * as React from 'react' ;
 
-import { connect } from 'react-redux' ;
-import { ConnectWallet } from 'src/redux/actions/wallet' ;
+import { useTheme } from '@mui/styles';
 
-import LogoImg from 'src/assets/logo.svg' ;
+import { 
+    HeaderBody, HeaderTop, HeaderCarousel,
+    Title,
+    BackgroundDiv, 
+    BackOverlay,
+    Prefix, Train, Location,Route,
+    InfoRow, InfoItem, InfoDetail,
+    IconDiv, Status, Desc,
+    LinkItem, LinkBackOverlay, LinkDesc,
+    Row, ArrowRow
+} from './styled/Header.styled';
 
-import { NavDiv, StatusPara } from './styles/Header.styles';
+import MenuIcon from '@mui/icons-material/Menu';
+import RssFeedIcon from '@mui/icons-material/RssFeed';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import AvTimerIcon from '@mui/icons-material/AvTimer';
+import SpeedOutlinedIcon from '@mui/icons-material/SpeedOutlined';
+import LandscapeOutlinedIcon from '@mui/icons-material/LandscapeOutlined';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 
-import swal from 'sweetalert';
+import Carousel1 from 'src/assets/header/carousel_1.png';
 
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import RouteImage from 'src/assets/header/route.png';
+import AccessImage from 'src/assets/header/internet_access.png';
+import FoodImage from 'src/assets/header/food.png';
+import AltitudeImage from 'src/assets/header/altitude.jpeg';
 
-import * as Wagmi from 'wagmi' ;
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { nftAddr } from 'src/web3/constants';
-import nftAbi from 'src/web3/abi/nft.json' ;
-import { whiteList_wallets } from 'src/static/variables';
+const Header = () => {
+    const theme = useTheme() ;
 
-const Header = (props) => {
-    const {
-        ConnectWallet
-    } = props ;
-
-    const [grantedRole, setGrantRole] = React.useState(0) ;
-
-    const {data: signer} = Wagmi.useSigner() ;
-
-    const nftInstance = Wagmi.useContract({
-		address: nftAddr,
-		abi: nftAbi,
-		signerOrProvider: signer,
-	});
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const checkWhiteUser = async () => {
-        // let receipt = await nftInstance.isWhiteList();
-        // console.log(receipt);
-
-        let address = await signer.getAddress();
-        
-        if(whiteList_wallets.includes(address)) setGrantRole('whitelist') ;
-        else setGrantRole('public') ;
-    }
-
-    const walletInfo = async () => {
-        let address = await signer.getAddress() ;
-
-        let balance = await nftInstance.balanceOf(address) ;
-        let isWhite = await nftInstance.isWhiteList(address) ;
-
-        let role ;
-
-        if(isWhite) role = "whitelist" ;
-        else role = "public" ;
-
-        await ConnectWallet(address, balance.toString(), role) ;
-    }
-    
-    React.useEffect(() => {
-        if(signer) {
-            checkWhiteUser() ;
-            walletInfo() ;
-            return ;
+    const linkList = [
+        {
+            desc : "Check route info",
+            to : '/check-route',
+            image : RouteImage
+        },
+        {
+            desc : 'Altitude',
+            to : '/altitude',
+            image : AltitudeImage
+        },
+        {
+            desc : 'Internet Access',
+            to : '/internet-access',
+            image : AccessImage
+        },
+        {
+            desc : "Enjoy our delicious food",
+            to : "/enjoy-food",
+            image : FoodImage
         }
+    ];
 
-        setGrantRole(0);
+    const [swiperCtrl, setSwiperCtrl] = React.useState(null) ;
+    const [currentIndex, setCurrentIndex] = React.useState(0) ;
+
+    React.useEffect(() => {
+        console.log(currentIndex);
+        swiperCtrl?.slideTo(currentIndex) ;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [checkWhiteUser, signer]) ;
+    }, [currentIndex]) ;
 
+    const goToNextSlide = () => {
+        if(swiperCtrl?.isEnd) return ;
+        setCurrentIndex(currentIndex + 1) ;
+    }
+
+    const goToPrevSlide = () => {
+        if(swiperCtrl?.isBeginning) return ;
+        setCurrentIndex(currentIndex - 1) ;
+    }
     return (
-        <NavDiv>
-            {/* // eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-            <img src={LogoImg} width={250} height={100} alt='logo image' />
-
-            <ConnectButton />
-            {/* { grantedRole === 1 && <StatusPara>Whitelist User</StatusPara> }
-            { grantedRole === 2 && <StatusPara>Public User</StatusPara> } */}
-        </NavDiv>
+        <>
+            <HeaderBody>
+                <HeaderTop  theme={theme}> 
+                    <MenuIcon />
+                    <Title><RssFeedIcon/>Rave</Title>
+                    <MenuIcon />
+                </HeaderTop>
+                
+                <BackgroundDiv
+                    image={Carousel1}
+                >
+                    <BackOverlay>
+                        <Prefix>welcome to the</Prefix>
+                        <Location>Bernina Express</Location>
+                        <Train>BEX 951 Chur - Tirano</Train>
+                        <Route><LocationOnIcon/>Chur - Tirano</Route>
+                        <Row>
+                            <InfoRow>
+                                <InfoItem>
+                                    <IconDiv><SpeedOutlinedIcon /></IconDiv>
+                                    <InfoDetail>
+                                        <Status>42 km/h</Status>
+                                        <Desc>Speed</Desc>
+                                    </InfoDetail>
+                                </InfoItem>
+                                <InfoItem>
+                                    <IconDiv><LandscapeOutlinedIcon /></IconDiv>
+                                    <InfoDetail>
+                                        <Status>766 m</Status>
+                                        <Desc>Altitude</Desc>
+                                    </InfoDetail>
+                                </InfoItem>
+                                <InfoItem>
+                                    <IconDiv><AvTimerIcon /></IconDiv>
+                                    <InfoDetail>
+                                        <Status>242 of 286 MB</Status>
+                                        <Desc>Data of Usage</Desc>
+                                    </InfoDetail>
+                                </InfoItem>
+                            </InfoRow>
+                            <ArrowRow>
+                                <ArrowBackOutlinedIcon 
+                                    onClick={goToPrevSlide}
+                                />
+                                <ArrowForwardOutlinedIcon 
+                                    onClick={goToNextSlide}
+                                />
+                            </ArrowRow>
+                        </Row>
+                        <HeaderCarousel>
+                            <Swiper
+                                slidesPerView={"auto"}
+                                spaceBetween={0}
+                                pagination={{
+                                clickable: true,
+                                }}
+                                onSlideChange={(e) => setCurrentIndex(e.activeIndex)}
+                                onSwiper={setSwiperCtrl}
+                            >
+                                {
+                                    linkList.map((link, index) => (
+                                        <SwiperSlide key={index}>
+                                            <LinkItem image={ link.image } className='image' >
+                                                
+                                            </LinkItem>
+                                            <LinkBackOverlay>
+                                                <LinkDesc>{ link.desc }</LinkDesc>
+                                            </LinkBackOverlay>
+                                        </SwiperSlide>
+                                    ))
+                                }
+                            </Swiper>
+                        </HeaderCarousel>
+                    </BackOverlay>
+                </BackgroundDiv>
+            </HeaderBody>
+        </>
     )
 }
-const mapStateToProps = state => ({
 
-})
-const mapDispatchToProps = {
-    ConnectWallet
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Header) ;
+export default Header;

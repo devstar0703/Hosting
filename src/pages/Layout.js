@@ -1,47 +1,46 @@
 import * as React from "react";
 
+import { RouteProvider } from "src/shared/hooks/useRouteData";
+
 import { Routes , Route } from "react-router-dom";
 
 import { connect } from 'react-redux' ;
 
-import { WalletProvider } from 'src/context/WalletContext' ;
-
 import Header from "src/components/Layouts/Header";
-import Landing from "./Landing";
+// import Footer from "src/components/Layouts/Footer";
+import Content from "src/components/Layouts/Content";
+
+import Dashboard from "./Dashboard";
+
+import { 
+    LayoutMain
+} from "./styled/Layout.styled";
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 import 'react-circular-progressbar/dist/styles.css';
 
 const Layout = (props) => {
-    const {
-        address,
-        balance,
-        role
-    } = props ;
 
     return (
-        <WalletProvider 
-            value={{
-                address, 
-                balance,
-                role
-            }}
-        >
-            <Header />
-            <Routes>
-                <Route path="/" element={< Landing />} />
-                {/* <Route element={<ProtectedRoute />}>
-                    <Route path='/solstice/*' element={<Solstice />} />
-                </Route>  */}
-                {/* <Route path="/*" element={<NotFound />}/> */}
-            </Routes>
-        </WalletProvider>
-        
+        <LayoutMain>
+            <RouteProvider>
+                <Header />
+                <Content>
+                    <Routes>
+                        <Route path="/" element={< Dashboard />} />
+                        <Route path="/dashboard" element={< Dashboard />} />
+                    </Routes>
+                </Content>
+                {/* <Footer /> */}
+            </RouteProvider>
+        </LayoutMain>
     );
 }
 const mapStateToProps = state => ({
-    address : state.wallet.address,
-    balance : state.wallet.balance,
-    role : state.wallet.role
+ 
 }) ;
 const mapDispatchToProps = {
 

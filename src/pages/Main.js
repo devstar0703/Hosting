@@ -5,6 +5,10 @@ import store from '../redux' ;
 // Router
 import { BrowserRouter , Routes , Route } from 'react-router-dom';
 
+import { ThemeProvider, CssBaseline } from '@mui/material';
+
+import theme from 'src/utils/theme';
+
 const Layout = React.lazy(() => import('./Layout')) ;
 
 const Main = () => {
@@ -12,14 +16,14 @@ const Main = () => {
         <BrowserRouter>
             {/* <LanguageProvider> */}
                 <Provider store={store}>
-                    {/* <ThemeProvider theme={theme}> */}
-                        {/* <CssBaseline /> */}
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
                         <React.Suspense fallback={<React.Fragment />} >
                             <Routes>
                                 <Route path="*" element={<Layout />} />
                             </Routes>
                         </React.Suspense>
-                    {/* </ThemeProvider> */}
+                    </ThemeProvider>
                 </Provider>
             {/* </LanguageProvider> */}
         </BrowserRouter>
